@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import UserList from './UserList';
@@ -9,15 +8,15 @@ const mockUsers: User[] = [
     id: '1',
     name: 'John Doe',
     email: 'john@example.com',
-    createdAt: '2024-01-01T00:00:00.000Z',
-    updatedAt: '2024-01-01T00:00:00.000Z'
+    createdAt: new Date('2024-01-01T00:00:00.000Z'),
+    updatedAt: new Date('2024-01-01T00:00:00.000Z')
   },
   {
     id: '2',
     name: 'Jane Smith',
     email: 'jane@example.com',
-    createdAt: '2024-01-02T00:00:00.000Z',
-    updatedAt: '2024-01-02T00:00:00.000Z'
+    createdAt: new Date('2024-01-02T00:00:00.000Z'),
+    updatedAt: new Date('2024-01-02T00:00:00.000Z')
   }
 ];
 
