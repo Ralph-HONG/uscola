@@ -15,6 +15,9 @@ jobs:
     name: Deploy Frontend
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' }}
+    permissions:
+      contents: read
+      deployments: write
     
     steps:
     - name: Checkout code
@@ -37,12 +40,13 @@ jobs:
         VITE_API_URL: ${{ secrets.PRODUCTION_API_URL || 'https://your-backend-url.com' }}
         
     - name: Deploy to Vercel
-      uses: vercel/action@v1
+      uses: BetaHuhn/deploy-to-vercel-action@v1
       with:
-        vercel-token: ${{ secrets.VERCEL_TOKEN }}
-        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-        working-directory: ./frontend
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        WORKING_DIRECTORY: ./frontend
         
   # Deploy Backend (예: Railway, Render, AWS)
   deploy-backend:

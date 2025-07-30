@@ -4,18 +4,16 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Copy package files
-COPY package*.json ./
-COPY backend/package*.json ./backend/
+COPY backend/package*.json ./
 
 # Install dependencies
-RUN npm ci
-RUN cd backend && npm ci
+RUN npm install
 
 # Copy source code
-COPY backend/ ./backend/
+COPY backend/ ./
 
 # Build the application
-RUN cd backend && npm run build
+RUN npm run build
 
 # Production stage
 FROM node:20-alpine AS production
@@ -26,10 +24,10 @@ WORKDIR /app
 COPY backend/package*.json ./
 
 # Install only production dependencies
-RUN npm ci --only=production && npm cache clean --force
+RUN npm install --omit=dev && npm cache clean --force
 
 # Copy built application
-COPY --from=builder /app/backend/dist ./dist
+COPY --from=builder /app/dist ./dist
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs
