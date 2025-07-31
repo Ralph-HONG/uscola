@@ -69,7 +69,7 @@ jobs:
         cache-to: type=gha,mode=max
         platforms: linux/amd64,linux/arm64
         build-args: |
-          VITE_API_URL=${{ matrix.service == 'frontend' && secrets.PRODUCTION_API_URL || '' }}
+          VITE_API_URL=${{ matrix.service == 'frontend' && '' || '' }}
         provenance: false
 
   integration-test:
