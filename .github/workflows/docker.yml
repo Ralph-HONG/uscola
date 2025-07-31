@@ -10,8 +10,23 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME_BACKEND: ${{ github.repository }}/backend
-  IMAGE_NAME_FRONTEND: ${{ github.repository }}/frontend
+  # 소문자 변환을 위해 repository_owner를 사용합니다.
+  OWNER_LOWERCASE: ${{ github.repository_owner.toLowerCase() }}
+  IMAGE_NAME_BACKEND: uscola/backend
+  IMAGE_NAME_FRONTEND: uscola/frontend
+
+jobs:
+  build-and-push:
+    # ... (중략)
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        # 수정된 부분: 소문자화된 이미지 이름을 사용합니다.
+        images: |
+          ${{ env.REGISTRY }}/${{ env.OWNER_LOWERCASE }}/${{ matrix.service == 'backend' && env.IMAGE_NAME_BACKEND || env.IMAGE_NAME_FRONTEND }}
+
+
 
 jobs:
   build-and-push:
