@@ -25,6 +25,9 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Nginx가 파일에 접근할 수 있도록 권한을 조정합니다.
+RUN chown -R nginx:nginx /usr/share/nginx/html && chmod -R 755 /usr/share/nginx/html
+
 # Use existing nginx user (already exists in nginx image)
 
 # Expose port
