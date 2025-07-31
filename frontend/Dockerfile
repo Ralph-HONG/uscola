@@ -22,9 +22,8 @@ FROM nginx:alpine AS production
 # Copy built assets
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copy nginx configuration
-RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy nginx configuration to the main config file
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Nginx가 파일에 접근할 수 있도록 권한을 조정합니다.
 RUN chown -R nginx:nginx /usr/share/nginx/html && chmod -R 755 /usr/share/nginx/html
