@@ -3,11 +3,9 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
+# Install dependencies first (better caching)
 COPY package*.json ./
-
-# Install dependencies
-RUN npm install
+RUN npm ci --silent && npm cache clean --force
 
 # Copy source code
 COPY . .
