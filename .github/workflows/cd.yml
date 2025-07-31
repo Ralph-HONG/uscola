@@ -39,6 +39,9 @@ jobs:
       env:
         VITE_API_URL: ${{ secrets.PRODUCTION_API_URL || 'https://your-backend-url.com' }}
         
+    - name: Install Vercel CLI
+      run: npm install -g vercel@latest
+      
     - name: Deploy to Vercel
       uses: BetaHuhn/deploy-to-vercel-action@v1
       with:
