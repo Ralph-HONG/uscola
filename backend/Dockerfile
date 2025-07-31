@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci --silent && npm cache clean --force
+RUN npm install && npm cache clean --force
 
 # Copy source code
 COPY . .
@@ -45,4 +45,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:3000/health || exit 1
 
 # Start the application
-CMD ["node", "dist/server.js"]
+CMD ["node", "--experimental-specifier-resolution=node", "dist/server.js"]

@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Install dependencies first (better caching)
 COPY package*.json ./
-RUN npm ci --silent && npm cache clean --force
+RUN npm install && npm cache clean --force
 
 # Copy source code
 COPY . .
@@ -25,9 +25,7 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Create non-root user
-RUN addgroup -g 1001 -S nginx
-RUN adduser -S nginx -u 1001
+# Use existing nginx user (already exists in nginx image)
 
 # Expose port
 EXPOSE 80
