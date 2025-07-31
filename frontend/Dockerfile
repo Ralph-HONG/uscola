@@ -23,6 +23,7 @@ FROM nginx:alpine AS production
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Copy nginx configuration
+RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Nginx가 파일에 접근할 수 있도록 권한을 조정합니다.
