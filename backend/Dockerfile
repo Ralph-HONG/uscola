@@ -18,6 +18,9 @@ RUN npm run build
 # Production stage
 FROM node:20-alpine AS production
 
+# Install curl for health checks
+RUN apk add --no-cache curl
+
 WORKDIR /app
 
 # Copy package files
@@ -45,4 +48,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD curl -f http://localhost:3000/health || exit 1
 
 # Start the application
-CMD ["node", "--experimental-specifier-resolution=node", "dist/server.js"]
+CMD ["node", "dist/server.js"]
