@@ -31,12 +31,12 @@ docker compose -f docker-compose.prod.yml up -d
 # 헬스체크
 echo "🏥 Checking service health..."
 timeout 60s bash -c 'until curl -f http://localhost:3000/health; do echo "Waiting for backend..."; sleep 5; done'
-timeout 60s bash -c 'until curl -f http://localhost:80; do echo "Waiting for frontend..."; sleep 5; done'
+timeout 60s bash -c 'until curl -f http://localhost:4000; do echo "Waiting for frontend..."; sleep 5; done'
 
 # 서비스 상태 확인
 echo "📊 Service status:"
 docker compose -f docker-compose.prod.yml ps
 
 echo "✅ Deployment completed successfully!"
-echo "🌐 Frontend: http://$(curl -s ifconfig.me)"
+echo "🌐 Frontend: http://$(curl -s ifconfig.me):4000"
 echo "🔧 Backend API: http://$(curl -s ifconfig.me):3000"
