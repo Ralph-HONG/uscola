@@ -19,16 +19,11 @@ RUN npm run build
 # Production stage with Nginx
 FROM nginx:alpine AS production
 
-# Copy built assets
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Copy built assets with correct ownership
+COPY --from=builder --chown=nginx:nginx /app/dist /usr/share/nginx/html
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Nginx가 파일에 접근할 수 있도록 권한을 조정합니다.
-# HTML 파일과 Nginx 설정 파일 모두에 대해 권한을 설정합니다.
-RUN chown -R nginx:nginx /usr/share/nginx/html && \
-    chmod -R 755 /usr/share/nginx/html && \
-    chmod 644 /etc/nginx/conf.d/default.conf
+# Copy nginx configuration with correct ownership
+COPY --chown=nginx:nginx nginx.conf /etc/nginx/conf.d/default.conf
 
 # Use existing nginx user (already exists in nginx image)
 
