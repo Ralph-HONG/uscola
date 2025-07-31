@@ -62,6 +62,8 @@ npm run build:frontend        # Build only frontend
 npm run lint                  # Lint both projects
 npm run format                # Format both projects
 npm run test                  # Run all tests
+npm run test:backend          # Run backend tests only
+npm run test:frontend         # Run frontend tests only
 ```
 
 ### Individual Project Commands
@@ -73,6 +75,7 @@ npm run build                 # Compile TypeScript
 npm run start                 # Run compiled JS
 npm run lint                  # ESLint check
 npm run test                  # Jest tests
+npm run test:watch            # Jest tests in watch mode
 
 # Frontend  
 cd frontend
@@ -81,6 +84,7 @@ npm run build                 # Build for production
 npm run preview               # Preview production build
 npm run lint                  # ESLint check
 npm run test                  # Jest tests
+npm run test:watch            # Jest tests in watch mode
 ```
 
 ## Architecture
@@ -88,26 +92,31 @@ npm run test                  # Jest tests
 ### Backend (Express + TypeScript)
 - **Framework**: Express.js with TypeScript
 - **Structure**: Controller → Service → Model pattern
+- **Security**: Helmet middleware for security headers
 - **Validation**: Joi schemas
 - **Error Handling**: Centralized error middleware
 - **CORS**: Configured for frontend connection
+- **Logging**: Morgan for HTTP request logging
 - **Health Check**: `/health` endpoint
 
 ### Frontend (React + TypeScript)
 - **Framework**: React 18 with TypeScript
 - **Build Tool**: Vite
+- **Styling**: Tailwind CSS with custom theme and plugins
 - **Routing**: React Router DOM
 - **HTTP Client**: Axios with interceptors
-- **Styling**: CSS modules
+- **Testing**: Jest with React Testing Library
 - **Dev Server**: Proxy to backend API
 
 ### Key Features
 - Full TypeScript support with path aliases
 - ESLint + Prettier configuration
-- Jest testing setup
+- Jest testing setup with coverage reporting
 - Environment configuration
 - CORS-enabled API communication
 - Development proxy setup
+- Docker containerization for production
+- Oracle Cloud deployment ready
 
 ## API Structure
 
@@ -131,7 +140,7 @@ cp frontend/.env.example frontend/.env
 
 2. Install dependencies:
 ```bash
-npm run install:all
+npm install
 ```
 
 3. Start development:
@@ -143,9 +152,47 @@ npm run dev
 
 Both projects use TypeScript path aliases:
 
-**Backend**: `@controllers/*`, `@middleware/*`, `@routes/*`, `@services/*`, `@types/*`, `@utils/*`, `@config/*`
+**Backend**: `@/*`, `@controllers/*`, `@middleware/*`, `@routes/*`, `@services/*`, `@types/*`, `@utils/*`, `@config/*`
 
-**Frontend**: `@components/*`, `@pages/*`, `@hooks/*`, `@services/*`, `@types/*`, `@utils/*`, `@styles/*`
+**Frontend**: `@/*`, `@components/*`, `@pages/*`, `@hooks/*`, `@services/*`, `@types/*`, `@utils/*`, `@styles/*`
+
+## Testing
+
+### Running Tests
+```bash
+# Run all tests
+npm run test
+
+# Run tests in watch mode
+cd backend && npm run test:watch
+cd frontend && npm run test:watch
+
+# View test coverage
+cd backend && npm run test  # Coverage reports in backend/coverage/
+cd frontend && npm run test # Coverage reports in frontend/coverage/
+```
+
+### Test Configuration
+- **Backend**: Jest with ts-jest, coverage reports in HTML and LCOV formats
+- **Frontend**: Jest with jsdom environment, React Testing Library setup
+
+## Deployment
+
+### Docker Development
+```bash
+# Build and run with Docker Compose
+docker compose up --build
+
+# Services available at:
+# Frontend: http://localhost:80
+# Backend: http://localhost:3000
+```
+
+### Production Deployment (Oracle Cloud)
+The project includes Oracle Cloud deployment configuration:
+- Docker-based deployment with nginx reverse proxy
+- GitHub Actions workflow for automated deployment
+- Complete setup scripts and documentation in `/deploy` folder
 
 ## Language Support
 
