@@ -4,13 +4,13 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Copy package files
-COPY backend/package*.json ./
+COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm ci --silent && npm cache clean --force
 
 # Copy source code
-COPY backend/ ./
+COPY . .
 
 # Build the application
 RUN npm run build
@@ -21,7 +21,7 @@ FROM node:20-alpine AS production
 WORKDIR /app
 
 # Copy package files
-COPY backend/package*.json ./
+COPY package*.json ./
 
 # Install only production dependencies
 RUN npm install --omit=dev && npm cache clean --force
