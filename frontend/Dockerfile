@@ -4,13 +4,13 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Copy package files
-COPY frontend/package*.json ./
+COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
 # Copy source code
-COPY frontend/ ./
+COPY . .
 
 # Build the application
 ARG VITE_API_URL=http://localhost:3000
@@ -25,7 +25,7 @@ FROM nginx:alpine AS production
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Copy nginx configuration
-COPY frontend/nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Create non-root user
 RUN addgroup -g 1001 -S nginx
