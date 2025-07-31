@@ -5,8 +5,8 @@ services:
     # ghcr.io에서 이미지를 가져옵니다.
     # 이미지 경로를 소문자로 변경합니다. (ralph-hong)
     image: ghcr.io/hong-ralph/uscola/backend:latest
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     environment:
       - NODE_ENV=production
       - PORT=3000
@@ -24,6 +24,8 @@ services:
     depends_on:
       - backend
     restart: unless-stopped
+    volumes:
+      - ./nginx/nginx.prod.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - uscola-network
 

@@ -30,7 +30,7 @@ docker compose -f docker-compose.prod.yml up -d
 
 # 헬스체크
 echo "🏥 Checking service health..."
-timeout 60s bash -c 'until curl -f http://localhost:3000/health; do echo "Waiting for backend..."; sleep 5; done'
+timeout 60s bash -c 'until curl -f http://localhost:4000/api/test; do echo "Waiting for backend..."; sleep 5; done'
 timeout 60s bash -c 'until curl -f http://localhost:4000; do echo "Waiting for frontend..."; sleep 5; done'
 
 # 서비스 상태 확인
