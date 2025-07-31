@@ -20,7 +20,7 @@ services:
     # 이미지 경로를 소문자로 변경합니다. (ralph-hong)
     image: ghcr.io/hong-ralph/uscola/frontend:latest
     ports:
-      - "80:80"
+      - "4000:80"
     depends_on:
       - backend
     restart: unless-stopped
