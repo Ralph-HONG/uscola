@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 // API Response types
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   message?: string;
@@ -16,11 +16,11 @@ export interface ApiError extends Error {
 
 // Custom Request/Response types
 export interface CustomRequest extends Request {
-  user?: any; // Add user type when authentication is implemented
+  user?: Record<string, unknown>; // Add user type when authentication is implemented
 }
 
 export interface CustomResponse extends Response {
-  sendSuccess: (data?: any, message?: string) => void;
+  sendSuccess: (data?: unknown, message?: string) => void;
   sendError: (error: string, statusCode?: number) => void;
 }
 
